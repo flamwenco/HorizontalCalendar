@@ -6,6 +6,6 @@ final class HorizontalCalendarTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(HorizontalCalendar().text, "Hello, World!")
+        //XCTAssertEqual(HorizontalCalendar.text, "Hello, World!")
     }
 }
