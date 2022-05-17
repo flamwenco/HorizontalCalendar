@@ -27,7 +27,7 @@ public struct HorizontalCalendarView: View {
               id: \.self,
               content: { index in
             // create a page based on the data passed
-            VStack {
+            ScrollView(.vertical) {
                 LazyVGrid(columns: gridItem, alignment: .center) {
                     ForEach(index.getWholeWeek()) { day in
                         DayView(day: day)
@@ -37,6 +37,7 @@ public struct HorizontalCalendarView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity,
                    minHeight: 0, maxHeight: 100)
+            .simultaneousGesture(DragGesture(minimumDistance: 0), including: .all)
          })
         .onPageChanged({ pageIndex in
             if pageIndex == 0 {
