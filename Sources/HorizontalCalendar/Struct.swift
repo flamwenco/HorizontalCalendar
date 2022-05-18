@@ -34,7 +34,7 @@ public struct Day: Identifiable {
     public let day: Date
     
     public init() {
-        self.day = Date()
+        self.day = Calendar.current.startOfDay(for: Date())
     }
     
     public init(day: Date) {
@@ -65,6 +65,19 @@ public struct Day: Identifiable {
     
     public func isToday() -> Bool {
         return Calendar.current.isDateInToday(self.day)
+    }
+    
+    public func isSameDay(day2: Day) -> Bool {
+        // Replace the hour (time) of both dates with 00:00
+        let date1 = Calendar.current.startOfDay(for: self.day)
+        let date2 = Calendar.current.startOfDay(for: day2.day)
+
+        let diff = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        if diff.day == 0 {
+            return true
+        } else {
+            return false
+        }
     }
 }
 
@@ -104,5 +117,32 @@ public struct CalendarWeek: Equatable, Hashable {
         return (weekdays.lowerBound ..< weekdays.upperBound)
             .compactMap { Calendar.current.date(byAdding: .day, value: $0 - weekday, to: startingDay) }
             .compactMap { day in Day(day: day) }
+    }
+    
+    public func getFirstWeekDay() -> Day {
+        let weekday = Calendar.current.component(.weekday, from: date)
+        
+        return Day(day: Calendar.current.date(byAdding: .day, value: 1 - weekday, to: self.date)!)
+    }
+      
+    private func compareWeek(week2: CalendarWeek) -> Int {
+        // Replace the hour (time) of both dates with 00:00
+        let date1 = Calendar.current.startOfDay(for: self.date)
+        let date2 = Calendar.current.startOfDay(for: week2.date)
+
+        let diff = Calendar.current.dateComponents([.weekOfYear], from: date1, to: date2)
+        return diff.weekOfYear!
+    }
+    
+    public func isLaterWeek(week2: CalendarWeek) -> Bool {
+        return compareWeek(week2: week2) < 0
+    }
+    
+    public func isEarlierWeek(week2: CalendarWeek) -> Bool {
+        return compareWeek(week2: week2) > 0
+    }
+    
+    public func isSameWeek(week2: CalendarWeek) -> Bool {
+        return compareWeek(week2: week2) == 0
     }
 }
