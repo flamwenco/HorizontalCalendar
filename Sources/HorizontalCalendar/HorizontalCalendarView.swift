@@ -27,7 +27,7 @@ public struct HorizontalCalendarView: View {
                     .font(.largeTitle)
                     .foregroundColor(.white)
                     .fontWeight(.bold)
-                    .padding(.leading, 5.0)
+                    .padding(.leading, 10)
                     .scaleEffect(scaleValue)
                     .onTapGesture {
                         withAnimation {
