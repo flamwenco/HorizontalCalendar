@@ -25,6 +25,7 @@ public struct HorizontalCalendarView: View {
             HStack() {
                 Text(controller.getMonthYear())
                     .font(.largeTitle)
+                    .foregroundColor(.white)
                     .fontWeight(.bold)
                     .padding(.leading, 5.0)
                     .scaleEffect(scaleValue)
@@ -50,7 +51,7 @@ public struct HorizontalCalendarView: View {
                         }
                     }
                     .frame(width: proxy.size.width, height: 20)
-                    .padding(.horizontal, 3.0)
+//                    .padding(.horizontal, -3.0)
                     ScrollView {
                         LazyHStack {
                             TabView(selection: $tabSelection) {
@@ -134,7 +135,7 @@ struct HorizontalCalendarView_Previews: PreviewProvider {
     static var previews: some View {
         HorizontalCalendarView(HorizontalCalendarController())
             .background(.red)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 mini"))
             .previewInterfaceOrientation(.portrait)
     }

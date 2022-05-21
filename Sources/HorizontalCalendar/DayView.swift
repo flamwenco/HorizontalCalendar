@@ -46,6 +46,7 @@ public struct DayView: View {
                 }
                 Text(String(day.getDayOfMonth()))
                     .font(.title2)
+                    .foregroundColor(.white)
             }
             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 120)
         }
