@@ -83,8 +83,9 @@ public struct Day: Identifiable {
     }
 }
 
-public struct CalendarWeek: Equatable, Hashable {
+public struct CalendarWeek: Equatable, Hashable, Identifiable {
     public let date: Date
+    public var id : String { UUID().uuidString }
     
     public init() {
         self.date = Date()

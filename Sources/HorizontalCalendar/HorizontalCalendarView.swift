@@ -7,12 +7,11 @@
 
 import SwiftUI
 import Combine
-import SwiftUIPager
 
 @available(iOS 15, *)
 public struct HorizontalCalendarView: View {
     @ObservedObject private var controller: HorizontalCalendarController
-    @StateObject var page: Page = .withIndex(1)
+    @State private var tabSelection = 1
     @State private var scaleValue = CGFloat(1)
     
     public init(
@@ -45,41 +44,66 @@ public struct HorizontalCalendarView: View {
             HStack {
                 ForEach(Week.allCases) { value in
                     WeekdayView(day: value.shortString)
+                        .frame(height: 20)
                 }
             }
             .frame(minWidth: 0, maxWidth: .infinity,
                    minHeight: 0, maxHeight: 20)
             .padding(.horizontal, 3.0)
-            Pager(page: page,
-                  data: controller.weekArray,
-                  id: \.self,
-                  content: { index in
-                // create a page based on the data passed
-                HStack {
-                    ForEach(index.getWholeWeek()) { day in
-                        DayView(day: day, selectedDay: controller.selectedDay)
-                            .frame(height: 60)
-                            .onTapGesture {
-                                selectDay(day)
+            ScrollView {
+                LazyHStack {
+                    TabView(selection: $tabSelection) {
+                        HStack {
+                            ForEach(controller.weekArray[0].getWholeWeek()) { day in
+                                DayView(day: day, selectedDay: controller.selectedDay)
+                                    .frame(height: 60)
+                                    .onTapGesture {
+                                        selectDay(day)
+                                    }
                             }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .tag(0)
+                        HStack {
+                            ForEach(controller.weekArray[1].getWholeWeek()) { day in
+                                DayView(day: day, selectedDay: controller.selectedDay)
+                                    .frame(height: 60)
+                                    .onTapGesture {
+                                        selectDay(day)
+                                    }
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .tag(1)
+                        HStack {
+                            ForEach(controller.weekArray[2].getWholeWeek()) { day in
+                                DayView(day: day, selectedDay: controller.selectedDay)
+                                    .frame(height: 60)
+                                    .onTapGesture {
+                                        selectDay(day)
+                                    }
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .tag(2)
+                    }
+                    .frame(width: UIScreen.main.bounds.width, height: 60)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .onChange(of: tabSelection) { pageIndex in
+                        if pageIndex == 0 {
+                            controller.previousWeek()
+                            tabSelection = 1
+                        }
+                        if pageIndex == 2 {
+                            controller.nextWeek()
+                            tabSelection = 1
+                        }
                     }
                 }
-                .frame(minWidth: 0, maxWidth: .infinity,
-                       minHeight: 0, maxHeight: .infinity)
-                .padding(.horizontal, 3.0)
-             })
-            .onPageChanged({ pageIndex in
-                if pageIndex == 0 {
-                    controller.previousWeek()
-                    page.index = 1
-                }
-                if pageIndex == 2 {
-                    controller.nextWeek()
-                    page.index = 1
-                }
-            })
-            .draggingAnimation(.custom(animation: nil))
-            .bounces(false)
+                .frame(maxWidth: .infinity)
+            }
+            .frame(maxWidth: .infinity,
+                   minHeight: 150, maxHeight: .infinity)
         }
         .frame(minHeight:0, maxHeight: 110)
     }
@@ -94,18 +118,8 @@ public struct HorizontalCalendarView: View {
     
     func jumpToToday() {
         if !controller.isCurrentWeek() {
-            if controller.isEarlierWeek() {
+            withAnimation {
                 controller.jumpToToday()
-                withAnimation {
-                    page.update(.moveToFirst)
-                    page.update(.new(index: 1))
-                }
-            } else {
-                controller.jumpToToday()
-                withAnimation {
-                    page.update(.moveToLast)
-                    page.update(.new(index: 1))
-                }
             }
         } else {
             if !controller.isTodaySelected() {
@@ -122,5 +136,6 @@ struct HorizontalCalendarView_Previews: PreviewProvider {
         HorizontalCalendarView(HorizontalCalendarController())
             .preferredColorScheme(.dark)
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 mini"))
+            .previewInterfaceOrientation(.portrait)
     }
 }
