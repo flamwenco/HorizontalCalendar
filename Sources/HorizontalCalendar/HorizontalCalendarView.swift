@@ -104,7 +104,7 @@ public struct HorizontalCalendarView: View {
                        minHeight: 150, maxHeight: .infinity)
             }
         }
-        .frame(minHeight:0, maxHeight: 110)
+        .frame(minHeight:0, maxHeight: 120)
     }
     
     func selectDay(_ day: Day) {

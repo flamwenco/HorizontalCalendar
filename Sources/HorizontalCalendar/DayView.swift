@@ -17,7 +17,8 @@ public struct DayView: View {
             ZStack {
                 if day.isSameDay(day2: selectedDay) {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(.red.opacity(0.2))
+//                    .fill(.red.opacity(0.2))
+                    .fill(.thickMaterial)
                     .frame(width:40, height: 40)
                 } else {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -33,7 +34,8 @@ public struct DayView: View {
             ZStack {
                 if day.isSameDay(day2: selectedDay) {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color(UIColor.secondarySystemFill).opacity(0.8))
+                        //.fill(Color(UIColor.secondarySystemFill).opacity(0.8))
+                        .fill(.thinMaterial)
                         .frame(width: 40, height: 40)
                 } else {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
