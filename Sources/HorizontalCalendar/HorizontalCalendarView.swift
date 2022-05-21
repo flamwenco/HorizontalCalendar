@@ -37,24 +37,19 @@ public struct HorizontalCalendarView: View {
                         withAnimation(Animation.linear.delay(0.1)) {
                             self.scaleValue = 1.0
                         }
-                        if !controller.isCurrentWeek() {
-                            if controller.isEarlierWeek() {
-                                controller.jumpToToday()
-                                withAnimation {
-                                    page.update(.moveToFirst)
-                                    page.update(.new(index: 1))
-                                }
-                            } else {
-                                controller.jumpToToday()
-                                withAnimation {
-                                    page.update(.moveToLast)
-                                    page.update(.new(index: 1))
-                                }
-                            }
-                        }
+                        
+                        jumpToToday()
                     }
                 Spacer()
             }
+            HStack {
+                ForEach(Week.allCases) { value in
+                    WeekdayView(day: value.shortString)
+                }
+            }
+            .frame(minWidth: 0, maxWidth: .infinity,
+                   minHeight: 0, maxHeight: 20)
+            .padding(.horizontal, 3.0)
             Pager(page: page,
                   data: controller.weekArray,
                   id: \.self,
@@ -71,6 +66,7 @@ public struct HorizontalCalendarView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity,
                        minHeight: 0, maxHeight: .infinity)
+                .padding(.horizontal, 3.0)
              })
             .onPageChanged({ pageIndex in
                 if pageIndex == 0 {
@@ -82,6 +78,7 @@ public struct HorizontalCalendarView: View {
                     page.index = 1
                 }
             })
+            .draggingAnimation(.custom(animation: nil))
             .bounces(false)
         }
         .frame(minHeight:0, maxHeight: 110)
@@ -94,12 +91,29 @@ public struct HorizontalCalendarView: View {
             userInfo: ["day": day])
         
     }
- 
+    
     func jumpToToday() {
-        NotificationCenter.default.post(
-            name: Notification.Name("JumpToToday"),
-            object: nil)
-        
+        if !controller.isCurrentWeek() {
+            if controller.isEarlierWeek() {
+                controller.jumpToToday()
+                withAnimation {
+                    page.update(.moveToFirst)
+                    page.update(.new(index: 1))
+                }
+            } else {
+                controller.jumpToToday()
+                withAnimation {
+                    page.update(.moveToLast)
+                    page.update(.new(index: 1))
+                }
+            }
+        } else {
+            if !controller.isTodaySelected() {
+                withAnimation {
+                    controller.selectToday()
+                }
+            }
+        }
     }
 }
 

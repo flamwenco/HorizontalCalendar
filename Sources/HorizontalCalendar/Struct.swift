@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Week: Int, CaseIterable {
+public enum Week: Int, CaseIterable, Identifiable {
     case sun = 0
     case mon = 1
     case tue = 2
@@ -15,6 +15,8 @@ public enum Week: Int, CaseIterable {
     case thu = 4
     case fri = 5
     case sat = 6
+    
+    public var id : String { UUID().uuidString }
     
     public var shortString: String {
         get {

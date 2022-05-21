@@ -51,7 +51,15 @@ public class HorizontalCalendarController: ObservableObject {
         self.weekArray.append(self.week)
         self.weekArray.append(self.week.getNextWeek())
         
+        selectToday()
+    }
+    
+    public func selectToday() {
         self.selectedDay = Day()
+    }
+    
+    public func isTodaySelected() -> Bool {
+        return self.selectedDay.isToday()
     }
     
     @objc public func selectDay(_ notification: Notification) {
