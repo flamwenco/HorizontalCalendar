@@ -50,60 +50,59 @@ public struct HorizontalCalendarView: View {
             .frame(minWidth: 0, maxWidth: .infinity,
                    minHeight: 0, maxHeight: 20)
             .padding(.horizontal, 3.0)
-            ScrollView {
-                LazyHStack {
-                    TabView(selection: $tabSelection) {
-                        HStack {
-                            ForEach(controller.weekArray[0].getWholeWeek()) { day in
-                                DayView(day: day, selectedDay: controller.selectedDay)
-                                    .frame(height: 60)
-                                    .onTapGesture {
-                                        selectDay(day)
-                                    }
+            GeometryReader { proxy in
+                ScrollView {
+                    LazyHStack {
+                        TabView(selection: $tabSelection) {
+                            HStack {
+                                ForEach(controller.weekArray[0].getWholeWeek()) { day in
+                                    DayView(day: day, selectedDay: controller.selectedDay)
+                                        .frame(height: 60)
+                                        .onTapGesture {
+                                            selectDay(day)
+                                        }
+                                }
+                            }
+                            .tag(0)
+                            HStack {
+                                ForEach(controller.weekArray[1].getWholeWeek()) { day in
+                                    DayView(day: day, selectedDay: controller.selectedDay)
+                                        .frame(height: 60)
+                                        .onTapGesture {
+                                            selectDay(day)
+                                        }
+                                }
+                            }
+                            .tag(1)
+                            HStack {
+                                ForEach(controller.weekArray[2].getWholeWeek()) { day in
+                                    DayView(day: day, selectedDay: controller.selectedDay)
+                                        .frame(height: 60)
+                                        .onTapGesture {
+                                            selectDay(day)
+                                        }
+                                }
+                            }
+                            .tag(2)
+                        }
+                        .frame(width: proxy.size.width, height: 60)
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        .onChange(of: tabSelection) { pageIndex in
+                            if pageIndex == 0 {
+                                controller.previousWeek()
+                                tabSelection = 1
+                            }
+                            if pageIndex == 2 {
+                                controller.nextWeek()
+                                tabSelection = 1
                             }
                         }
-                        .frame(maxWidth: .infinity)
-                        .tag(0)
-                        HStack {
-                            ForEach(controller.weekArray[1].getWholeWeek()) { day in
-                                DayView(day: day, selectedDay: controller.selectedDay)
-                                    .frame(height: 60)
-                                    .onTapGesture {
-                                        selectDay(day)
-                                    }
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .tag(1)
-                        HStack {
-                            ForEach(controller.weekArray[2].getWholeWeek()) { day in
-                                DayView(day: day, selectedDay: controller.selectedDay)
-                                    .frame(height: 60)
-                                    .onTapGesture {
-                                        selectDay(day)
-                                    }
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .tag(2)
                     }
-                    .frame(width: UIScreen.main.bounds.width, height: 60)
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .onChange(of: tabSelection) { pageIndex in
-                        if pageIndex == 0 {
-                            controller.previousWeek()
-                            tabSelection = 1
-                        }
-                        if pageIndex == 2 {
-                            controller.nextWeek()
-                            tabSelection = 1
-                        }
-                    }
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity,
+                       minHeight: 150, maxHeight: .infinity)
             }
-            .frame(maxWidth: .infinity,
-                   minHeight: 150, maxHeight: .infinity)
         }
         .frame(minHeight:0, maxHeight: 110)
     }
