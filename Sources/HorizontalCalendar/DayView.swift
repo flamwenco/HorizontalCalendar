@@ -17,17 +17,19 @@ public struct DayView: View {
             ZStack {
                 if day.isSameDay(day2: selectedDay) {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-//                    .fill(.red.opacity(0.2))
-                    .fill(.thickMaterial)
-                    .frame(width:40, height: 40)
+                        .fill(.thickMaterial)
+                        .frame(width:40, height: 40)
+                    Text(String(day.getDayOfMonth()))
+                        .font(.title2)
+                        .foregroundColor(.red)
                 } else {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(.red.opacity(0.0))
-                    .frame(width:40, height: 40)
+                        .fill(.red.opacity(0.0))
+                        .frame(width:40, height: 40)
+                    Text(String(day.getDayOfMonth()))
+                        .font(.title2)
+                        .foregroundColor(.black)
                 }
-                Text(String(day.getDayOfMonth()))
-                    .font(.title2)
-                    .foregroundColor(Color.red)
             }
             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 120)
         } else {
@@ -53,6 +55,9 @@ public struct DayView: View {
 struct DayView_Previews: PreviewProvider {
     static var previews: some View {
         DayView(day: Day(), selectedDay: Day())
-            .preferredColorScheme(.light)
+            .background(.red)
+            .preferredColorScheme(.dark)
+            .previewDevice(PreviewDevice(rawValue: "iPhone 12 mini"))
+            .previewInterfaceOrientation(.portrait)
     }
 }

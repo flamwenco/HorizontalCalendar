@@ -14,7 +14,7 @@ struct WeekdayView: View {
         ZStack {
             Text(day.uppercased())
                 .font(.caption2)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(.red.opacity(0.0))
                 .frame(width:40, height: 40)
@@ -26,5 +26,7 @@ struct WeekdayView: View {
 struct WeekdayView_Previews: PreviewProvider {
     static var previews: some View {
         WeekdayView(day: "sun")
+            .previewDevice(PreviewDevice(rawValue: "iPhone 12 mini"))
+            .previewInterfaceOrientation(.portrait)
     }
 }
