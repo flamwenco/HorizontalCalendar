@@ -51,7 +51,11 @@ public class HorizontalCalendarController: ObservableObject {
         self.weekArray.append(self.week)
         self.weekArray.append(self.week.getNextWeek())
         
-        selectToday()
+//        selectToday()
+        NotificationCenter.default.post(
+            name: Notification.Name("SelectDay"),
+            object: nil,
+            userInfo: ["day": Day()])
     }
     
     public func selectToday() {

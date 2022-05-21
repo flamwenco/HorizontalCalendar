@@ -112,7 +112,6 @@ public struct HorizontalCalendarView: View {
             name: Notification.Name("SelectDay"),
             object: nil,
             userInfo: ["day": day])
-        
     }
     
     func jumpToToday() {
