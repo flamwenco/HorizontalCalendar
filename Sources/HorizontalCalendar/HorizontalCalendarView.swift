@@ -51,8 +51,7 @@ public struct HorizontalCalendarView: View {
                         }
                     }
                     .frame(width: proxy.size.width, height: 20)
-//                    .padding(.horizontal, -3.0)
-                    ScrollView {
+                    ScrollView(.horizontal) {
                         LazyHStack {
                             TabView(selection: $tabSelection) {
                                 HStack {
