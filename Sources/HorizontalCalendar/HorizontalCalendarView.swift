@@ -10,15 +10,9 @@ import Combine
 
 @available(iOS 15, *)
 public struct HorizontalCalendarView: View {
-    @ObservedObject private var controller: HorizontalCalendarController
+    @StateObject private var controller = HorizontalCalendarController()
     @State private var tabSelection = 1
     @State private var scaleValue = CGFloat(1)
-    
-    public init(
-        _ controller: HorizontalCalendarController =        HorizontalCalendarController()
-    ) {
-        self.controller = controller
-    }
     
     public var body: some View {
         VStack(spacing: 0.0) {
@@ -132,7 +126,7 @@ public struct HorizontalCalendarView: View {
 
 struct HorizontalCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        HorizontalCalendarView(HorizontalCalendarController())
+        HorizontalCalendarView()
             .background(.red)
             .preferredColorScheme(.light)
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 mini"))
